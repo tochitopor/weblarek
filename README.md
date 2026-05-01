@@ -138,9 +138,9 @@ Presenter - презентер содержит основную логику п
 Методы:  
 `get productsList(): IProduct[]` - метод возвращает хранимый массив товаров.  
 `set productsList(productsList: IProduct[])` - метод сохраняет измененный массив товаров.  
-`getProductByID(id: string):IProduct` - получение одного товара по его id.  
+`getProductByID(id: string):IProduct | null` - получение одного товара по его id.  
+`get focusCard(): IProduct | null` - получение товара для подробного отображения из переменной focusCard.  
 `set focusCard(product: IProduct)` - сохранение товара для подробного отображения в переменную focusCard.   
-`get focusCard(): IProduct` - получение товара для подробного отображения из переменной focusCard.  
 
 #### Класс Cart
 Класс Cart хранит массив товаров, выбранных покупателем для покупки.
