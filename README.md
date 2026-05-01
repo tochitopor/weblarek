@@ -136,10 +136,10 @@ Presenter - презентер содержит основную логику п
 `private focusCard: IProduct | null` - объект с выбранным товаром.
 
 Методы:  
-`get productsList(): productsList: IProduct[]` - метод возвращает хранимый массив товаров.  
-`set productsList(productsList: IProduct[]): void` - метод сохраняет измененный массив товаров.  
+`get productsList(): IProduct[]` - метод возвращает хранимый массив товаров.  
+`set productsList(productsList: IProduct[])` - метод сохраняет измененный массив товаров.  
 `getProductByID(id: string):IProduct` - получение одного товара по его id.  
-`set focusCard(product: IProduct): void` - сохранение товара для подробного отображения в переменную focusCard.   
+`set focusCard(product: IProduct)` - сохранение товара для подробного отображения в переменную focusCard.   
 `get focusCard(): IProduct` - получение товара для подробного отображения из переменной focusCard.  
 
 #### Класс Cart
@@ -174,13 +174,13 @@ Presenter - презентер содержит основную логику п
 
 Методы:  
 `get payment(): string` - получить способ оплаты выбранный пользователем.  
-`set payment(val: 'card' | 'cash' | ''): void` - установить способ оплаты выбранный пользователем.  
+`set payment(val: 'card' | 'cash' | '')` - установить способ оплаты выбранный пользователем.  
 `get adress() string:` - получить адресс пользоватля.  
-`set adress(val: string): void` - установить адресс пользоватля.  
+`set adress(val: string)` - установить адресс пользоватля.  
 `get phone(): string` - получить телефон пользоватля.  
-`set phone(val: string): void` - установить телефон пользоватля.  
+`set phone(val: string)` - установить телефон пользоватля.  
 `get email(): string` - получить электронная почта пользоватля.  
-`set email(val: string): void` - установить электронная почта пользоватля.  
+`set email(val: string)` - установить электронная почта пользоватля.  
 `cleanBuyerData(): void` - сброс всех данных пользователя
 `validation(): { [key: string]: string } ` - валидация способа оплаты, адреса, телефона и электронной почты пользоватля. Метод возвращает объект с полями соответствующими полям класса не прошедшим валидацию. В значении ключа указанна причина инвалидации. Если поля нет в возвращаемом объекте, значит оно валидное.
 
