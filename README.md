@@ -156,8 +156,8 @@ Presenter - презентер содержит основную логику п
 `addProduct(product: IProduct): void` - добавление товара, который был получен в параметре, в массив корзины.  
 `discardProduct(product: IProduct): void` - удаление товара, полученного в параметре из массива корзины.  
 `cleanCart(): void` - очистка корзины.  
-`getTotalCartPrice` - получение стоимости всех товаров в корзине.  
-`getProductCountInCart` -получение количества товаров в корзине.  
+`getTotalCartPrice(): number` - получение стоимости всех товаров в корзине.  
+`getProductCountInCart: number` - получение количества товаров в корзине.  
 `isProductInCartById(id: string): boolean` - проверка наличия товара в корзине по его id, полученного в параметр метода.  
 
 #### Класс Buyer
