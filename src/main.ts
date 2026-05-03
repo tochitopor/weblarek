@@ -1,7 +1,7 @@
 import './scss/styles.scss';
 
 import {Buyer} from './components/models/Buyer';
-//import {Cart} from './components/models/Cart';
+import {Cart} from './components/models/Cart';
 import {ProductCatalog} from './components/models/ProductCatalog';
 
 import {apiProducts} from './utils/data';
@@ -62,4 +62,26 @@ buyer.cleanBuyerData();
 console.log('Проверка очистки данных о пользователе: ', JSON.stringify(buyer));
 
 //----------Cart----------
-// let cart = new Cart();
+console.log('//----------Cart----------');
+
+let cart = new Cart();
+console.log('Проверка создания объекта Cart: ', JSON.stringify(cart));
+
+console.log('Проверка получения списка выбранных товаров: ', JSON.stringify(cart.productsList));
+
+cart.addProduct(apiProducts.items[0]);
+cart.addProduct(apiProducts.items[1]);
+console.log('Проверка добавления товаров в корзину: ', JSON.stringify(cart.productsList));
+
+console.log('Проверка расчета стоимости корзины: ', cart.getTotalCartPrice());
+
+console.log('Проверка получения количества товаров в корзине: ', cart.getProductCountInCart());
+
+cart.discardProduct(apiProducts.items[0]);
+console.log('Проверка удаления товара из корзины: ', JSON.stringify(cart.productsList));
+
+console.log('Успешный поиск товара по id: ', cart.isProductInCartById('c101ab44-ed99-4a54-990d-47aa2bb4e7d9'));
+console.log('Не успешный поиск товара по id: ', cart.isProductInCartById('854cef69-976d-4c2a-a18c-2aa45046c390'));
+
+cart.cleanCart()
+console.log('Проверка очистка корзины: ', JSON.stringify(cart.productsList));
