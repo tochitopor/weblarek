@@ -53,27 +53,22 @@ export class Buyer {
     validation(): { [key: string]: string } {
         let result : { [key: string]: string } = {};
 
-        if( this._payment = '') {
+        if( this._payment === '') {
             result['payment'] = 'Не выбран вид оплаты';
         }
 
-        if(  this._adress = '') {
+        if(  this._adress === '') {
             result['adress'] = 'Укажите адрес';
         }
 
-        if( this._phone = '') {
+        if( this._phone === '') {
             result['phone'] = 'Укажите телефон';
         }
 
-        if( this._email = '') {
+        if( this._email === '') {
             result['email'] = 'Укажите электронную почту';
         }
 
         return result;
     }
-    
-    // валидация способа оплаты, адреса, телефона и электронной почты пользоватля. 
-    // Метод возвращает объект с полями соответствующими полям класса не прошедшим валидацию. 
-    // В значении ключа указанна причина инвалидации. Если поля нет в возвращаемом объекте, 
-    // значит оно валидное.
 }
