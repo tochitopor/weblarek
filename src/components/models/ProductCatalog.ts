@@ -21,9 +21,10 @@ export class ProductCatalog {
         let result: IProduct | null = null;
 
         this._productsList.some( item => {
-            if( item.id === id)
+            if( item.id === id) {
                 result = item;
                 return true;
+            }
         });
 
         return result;
