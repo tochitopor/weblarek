@@ -1,12 +1,12 @@
 export class Buyer {
     private _payment: 'card' | 'cash' | '';
-    private _adress: string;
+    private _address: string;
     private _phone: string;
     private _email: string;
     
-    constructor(payment: 'card' | 'cash' | '', adress: string, phone: string, email: string) {
+    constructor(payment: 'card' | 'cash' | '', address: string, phone: string, email: string) {
         this._payment = payment;
-        this._adress = adress;
+        this._address = address;
         this._phone = phone;
         this._email = email;
     }
@@ -19,12 +19,12 @@ export class Buyer {
         this._payment = val;
     }
 
-    get adress(): string {
-        return this._adress;
+    get address(): string {
+        return this._address;
     }
 
-    set adress(val: string) {
-        this._adress = val;
+    set address(val: string) {
+        this._address = val;
     }
 
     get phone(): string {
@@ -45,7 +45,7 @@ export class Buyer {
 
     cleanBuyerData(): void {
             this._payment = '';
-            this._adress = '';
+            this._address = '';
             this._phone = '';
             this._email = '';
     }
@@ -57,8 +57,8 @@ export class Buyer {
             result['payment'] = 'Не выбран вид оплаты';
         }
 
-        if(  this._adress === '') {
-            result['adress'] = 'Укажите адрес';
+        if(  this._address === '') {
+            result['address'] = 'Укажите адрес';
         }
 
         if( this._phone === '') {
