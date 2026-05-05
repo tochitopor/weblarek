@@ -2,6 +2,16 @@ export type ApiPostMethods = 'POST' | 'PUT' | 'DELETE';
 
 export type TPayment = 'card' | 'cash' | '';
 
+export type TGetResponse = {
+    total: number,
+	items: IProduct[]
+}
+
+export type TPostResponse = {
+    id: string,
+    total: number
+}
+
 export interface IApi {
     get<T extends object>(uri: string): Promise<T>;
     post<T extends object>(uri: string, data: object, method?: ApiPostMethods): Promise<T>;

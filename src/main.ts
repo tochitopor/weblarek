@@ -3,9 +3,14 @@ import './scss/styles.scss';
 import {Buyer} from './components/models/Buyer';
 import {Cart} from './components/models/Cart';
 import {ProductCatalog} from './components/models/ProductCatalog';
+import {ClientApi} from './components/services/ClientApi';
+import {Api} from './components/base/Api';
 
 import {apiProducts} from './utils/data';
 import {initProducts} from './utils/data';
+
+import {IProduct} from './types/index.ts'
+import {TPostResponse} from './types/index.ts'
 
 //----------ProductCatalog----------
 console.log('//----------ProductCatalog----------');
@@ -37,10 +42,10 @@ console.log('Проверка получения способа оптлаты: 
 buyer.payment = 'cash';
 console.log('Проверка изменения способа оптлаты: ', buyer.payment);
 
-console.log('Проверка получения адреса: ', buyer.adress);
+console.log('Проверка получения адреса: ', buyer.address);
 
-buyer.adress = 'Марс';
-console.log('Проверка изменения адреса: ', buyer.adress);
+buyer.address = 'Марс';
+console.log('Проверка изменения адреса: ', buyer.address);
 
 console.log('Проверка получения телефона: ', buyer.phone);
 
@@ -85,3 +90,31 @@ console.log('Не успешный поиск товара по id: ', cart.isPr
 
 cart.cleanCart()
 console.log('Проверка очистка корзины: ', JSON.stringify(cart.productsList));
+
+//----------тест get метода объекта ClientApi ----------
+let baseUrl: string = 'https://larek-api.nomoreparties.co/api/weblarek/'
+let clientApi: ClientApi = new ClientApi(new Api(baseUrl));
+
+const productList: IProduct[] = await clientApi.getData();
+let remoteCatalog: ProductCatalog = new ProductCatalog(productList);
+console.log('каталог с сервера: ', JSON.stringify(remoteCatalog));
+
+
+//----------тест set метода объекта ClientApi ----------
+let buyer2 = new Buyer('card', 'Земля', '777 77 77', 'ganja@yandex.ru');
+let cart2 = new Cart();
+cart2.addProduct(productList[0]);
+cart2.addProduct(productList[1]);
+const obj: object = {
+    payment: "buyer2.payment",
+    email: buyer2.email,
+    phone: buyer2.phone,
+    address: buyer2.address,
+    total: cart2.getTotalCartPrice(),
+    items: [
+        productList[0].id,
+        productList[1].id
+    ]
+}
+const postResponse: TPostResponse = await clientApi.setData(obj);
+console.log('ответ сервера на POST запрос: ', JSON.stringify(postResponse));
