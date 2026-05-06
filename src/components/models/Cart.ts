@@ -16,8 +16,10 @@ export class Cart {
     }
 
     discardProduct(product: IProduct): void {
-        let index = this._productsList.indexOf(product); 
-        this._productsList.splice(index, 1);
+        if(this.isProductInCartById(product.id)) {
+            const index = this._productsList.indexOf(product); 
+            this._productsList.splice(index, 1);
+        }
     }
 
     cleanCart(): void {
@@ -25,14 +27,7 @@ export class Cart {
     }
 
     getTotalCartPrice(): number {
-        let result: number = 0;
-
-        this._productsList.forEach( item => {
-            if(item.price != null) {
-                result += item.price;
-            }
-        });
-        return result;
+        return this._productsList.reduce((total, item) => total + (item.price || 0), 0);
     }
 
     getProductCountInCart(): number {
@@ -40,14 +35,9 @@ export class Cart {
     }
 
     isProductInCartById(id: string): boolean {
-        let result: boolean = false;
-
-        this._productsList.forEach( item => {
-            if(item.id === id) {
-                result = true;
-            }
+        return this._productsList.some( item => {
+            return item.id === id ? true : false;
         });
 
-        return result;
     }
 }
