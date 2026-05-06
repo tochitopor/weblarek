@@ -18,7 +18,7 @@ export type TPostRequest = {
     phone: string,
     address: string,
     total: number,
-    items: IProduct[]
+    items: string[]
 }
 
 export interface IApi {

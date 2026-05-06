@@ -14,7 +14,7 @@ export class Buyer {
         this._email = '';
     }
     
-    get payment(): string {
+    get payment(): TPayment {
         return this._payment;
     }
 
@@ -54,7 +54,7 @@ export class Buyer {
     }
 
     validation(): TBuyerErrors {
-        let result : TBuyerErrors = {};
+        const result : TBuyerErrors = {};
 
         if( this._payment === '') {
             result['payment'] = 'Не выбран вид оплаты';

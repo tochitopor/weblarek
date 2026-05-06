@@ -11,12 +11,12 @@ export class ClientApi{
     }
 
     async getData(): Promise<TGetResponse>{
-        return await this._api.get<TGetResponse>('product');
+        return await this._api.get<TGetResponse>('/api/weblarek/product');
     }
 
     async setData(data: TPostRequest): Promise<TPostResponse> {
         const response: TPostResponse = 
-            await this._api.post<TPostResponse>('order', data);
+            await this._api.post<TPostResponse>('/api/weblarek/order', data);
         return response;
     }
 }

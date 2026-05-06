@@ -10,32 +10,37 @@ import {apiProducts} from './utils/data';
 import {initProducts} from './utils/data';
 
 import {IProduct} from './types/index.ts'
+import {TGetResponse} from './types/index.ts'
 import {TPostResponse} from './types/index.ts'
+import {TPostRequest} from './types/index.ts'
+
+
+const BASE_URL = import.meta.env.VITE_API_ORIGIN;
 
 //----------ProductCatalog----------
 console.log('//----------ProductCatalog----------');
 
-let pc = new ProductCatalog(initProducts, null);
-console.log('Проверка создания объекта ProductCatalog: ', JSON.stringify(pc));
+const productCatalog = new ProductCatalog(initProducts, null);
+console.log('Проверка создания объекта ProductCatalog: ', JSON.stringify(productCatalog, null, 2));
 
-console.log('Проверка получения списка товаров: ', JSON.stringify(pc.productsList));
+console.log('Проверка получения списка товаров: ', JSON.stringify(productCatalog.productsList, null, 2));
 
-pc.productsList = apiProducts.items;
-console.log('Проверка изменения списка товаров: ', JSON.stringify(pc.productsList));
+productCatalog.productsList = apiProducts.items;
+console.log('Проверка изменения списка товаров: ', JSON.stringify(productCatalog.productsList, null, 2));
 
-console.log('Успешный поиск товара по id: ', pc.getProductByID('c101ab44-ed99-4a54-990d-47aa2bb4e7d9'));
-console.log('Не успешный поиск товара по id: ', pc.getProductByID('124'));
+console.log('Успешный поиск товара по id: ', productCatalog.getProductByID('c101ab44-ed99-4a54-990d-47aa2bb4e7d9'));
+console.log('Не успешный поиск товара по id: ', productCatalog.getProductByID('124'));
 
-console.log('Проверки получения NULL фокус карточки: ', pc.focusCard);
+console.log('Проверки получения NULL фокус карточки: ', productCatalog.focusCard);
 
-pc.focusCard = initProducts[0];
-console.log('Проверки установки фокус карточки: ', pc.focusCard);
+productCatalog.focusCard = initProducts[0];
+console.log('Проверки установки фокус карточки: ', productCatalog.focusCard);
 
 //----------Buyer----------
 console.log('//----------Buyer----------');
 
-let buyer = new Buyer('card', 'Земля', '777 77 77', 'ganja@yandex.ru');
-console.log('Проверка создания объекта Buyer: ', JSON.stringify(buyer));
+const buyer = new Buyer();
+console.log('Проверка создания объекта Buyer: ', JSON.stringify(buyer, null, 2));
 
 console.log('Проверка получения способа оптлаты: ', buyer.payment);
 
@@ -64,57 +69,83 @@ buyer.phone = '';
 console.log('Проверка валидности данных о пользователе. Телефон и Способ оплаты не валидные: ', buyer.validation());
 
 buyer.cleanBuyerData();
-console.log('Проверка очистки данных о пользователе: ', JSON.stringify(buyer));
+console.log('Проверка очистки данных о пользователе: ', JSON.stringify(buyer, null, 2));
 
 //----------Cart----------
 console.log('//----------Cart----------');
 
-let cart = new Cart();
-console.log('Проверка создания объекта Cart: ', JSON.stringify(cart));
+const cart = new Cart();
+console.log('Проверка создания объекта Cart: ', JSON.stringify(cart, null, 2));
 
-console.log('Проверка получения списка выбранных товаров: ', JSON.stringify(cart.productsList));
+console.log('Проверка получения списка выбранных товаров: ', JSON.stringify(cart.productsList, null, 2));
 
 cart.addProduct(apiProducts.items[0]);
 cart.addProduct(apiProducts.items[1]);
-console.log('Проверка добавления товаров в корзину: ', JSON.stringify(cart.productsList));
+console.log('Проверка добавления товаров в корзину: ', JSON.stringify(cart.productsList, null, 2));
 
 console.log('Проверка расчета стоимости корзины: ', cart.getTotalCartPrice());
 
 console.log('Проверка получения количества товаров в корзине: ', cart.getProductCountInCart());
 
-cart.discardProduct(apiProducts.items[0]);
-console.log('Проверка удаления товара из корзины: ', JSON.stringify(cart.productsList));
+cart.discardProduct(apiProducts.items[1]);
+console.log('Проверка удаления товара из корзины: ', JSON.stringify(cart.productsList, null, 2));
+
+cart.discardProduct(apiProducts.items[3]);
+console.log('Проверка удаления отсутствующего в корзине товара: ', JSON.stringify(cart.productsList, null, 2));
 
 console.log('Успешный поиск товара по id: ', cart.isProductInCartById('c101ab44-ed99-4a54-990d-47aa2bb4e7d9'));
 console.log('Не успешный поиск товара по id: ', cart.isProductInCartById('854cef69-976d-4c2a-a18c-2aa45046c390'));
 
 cart.cleanCart()
-console.log('Проверка очистка корзины: ', JSON.stringify(cart.productsList));
+console.log('Проверка очистка корзины: ', JSON.stringify(cart.productsList, null, 2));
 
 //----------тест get метода объекта ClientApi ----------
-let baseUrl: string = 'https://larek-api.nomoreparties.co/api/weblarek/'
-let clientApi: ClientApi = new ClientApi(new Api(baseUrl));
+const clientApi: ClientApi = new ClientApi(new Api(BASE_URL));
 
-const productList: IProduct[] = await clientApi.getData();
-let remoteCatalog: ProductCatalog = new ProductCatalog(productList);
-console.log('каталог с сервера: ', JSON.stringify(remoteCatalog));
+async function getRemoteCatalog() {
+    try {
+        const data: TGetResponse = await clientApi.getData();
+        const productList: IProduct[] = data.items;
+        console.log('каталог с сервера: ', JSON.stringify(productList, null, 2));
+    }
+    catch(error){
+        console.log('неудалось получить каталог с сервера', error);
+    }
+}
 
+getRemoteCatalog();
 
 //----------тест set метода объекта ClientApi ----------
-let buyer2 = new Buyer('card', 'Земля', '777 77 77', 'ganja@yandex.ru');
-let cart2 = new Cart();
-cart2.addProduct(productList[0]);
-cart2.addProduct(productList[1]);
-const obj: object = {
-    payment: "buyer2.payment",
+const buyer2 = new Buyer();
+buyer2.payment = 'cash';
+buyer2.address = 'Земля';
+buyer2.phone = '555 55 55';
+buyer2.email = 'ganja@mail.ru';
+
+const cart2 = new Cart();
+cart2.addProduct(apiProducts.items[0]);
+cart2.addProduct(apiProducts.items[1]);
+
+const request: TPostRequest = ({
+    payment: buyer2.payment,
     email: buyer2.email,
     phone: buyer2.phone,
     address: buyer2.address,
     total: cart2.getTotalCartPrice(),
     items: [
-        productList[0].id,
-        productList[1].id
+        apiProducts.items[0].id,
+        apiProducts.items[1].id
     ]
+})
+
+async function setDataToServer() {
+    try {
+        const postResponse: TPostResponse = await clientApi.setData(request);
+        console.log('ответ сервера на POST запрос: ', JSON.stringify(postResponse, null, 2));
+    }
+    catch(error){
+        console.log('неудалось отправить данные на сервер', error);
+    }
 }
-const postResponse: TPostResponse = await clientApi.setData(obj);
-console.log('ответ сервера на POST запрос: ', JSON.stringify(postResponse));
+
+setDataToServer();
