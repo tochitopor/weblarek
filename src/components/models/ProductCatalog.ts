@@ -17,17 +17,12 @@ export class ProductCatalog {
         this._productsList = productsList;
     }
 
+    // я переделал, но не согласен, что some не предназначен для перебора элементов массива
     getProductByID(id: string): IProduct | null {
-        let result: IProduct | null = null;
+        const result = this._productsList.find( item => item.id === id);
 
-        this._productsList.some( item => {
-            if( item.id === id) {
-                result = item;
-                return true;
-            }
-        });
-
-        return result;
+        // Если продукт не найден, .find() вернет undefined, поэтому добавил null
+        return  result || null;
     }
 
     get focusCard(): IProduct | null {
