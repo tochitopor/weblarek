@@ -1,21 +1,24 @@
+import {TPayment} from '../../types/index.ts'
+import {TBuyerErrors} from '../../types/index.ts'
+
 export class Buyer {
-    private _payment: 'card' | 'cash' | '';
+    private _payment: TPayment;
     private _address: string;
     private _phone: string;
     private _email: string;
     
-    constructor(payment: 'card' | 'cash' | '', address: string, phone: string, email: string) {
-        this._payment = payment;
-        this._address = address;
-        this._phone = phone;
-        this._email = email;
+    constructor() {
+        this._payment = '';
+        this._address = '';
+        this._phone = '';
+        this._email = '';
     }
     
     get payment(): string {
         return this._payment;
     }
 
-    set payment(val: 'card' | 'cash' | '') {
+    set payment(val: TPayment) {
         this._payment = val;
     }
 
@@ -50,8 +53,8 @@ export class Buyer {
             this._email = '';
     }
 
-    validation(): { [key: string]: string } {
-        let result : { [key: string]: string } = {};
+    validation(): TBuyerErrors {
+        let result : TBuyerErrors = {};
 
         if( this._payment === '') {
             result['payment'] = 'Не выбран вид оплаты';

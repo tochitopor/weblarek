@@ -32,3 +32,5 @@ export interface IBuyer {
     phone: string;
     address: string;
 }
+
+export type TBuyerErrors = Partial<Record<keyof IBuyer, string>>; 
