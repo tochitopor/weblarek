@@ -1,21 +1,20 @@
-import {IProduct} from '../../types/index.ts'
 import {TGetResponse} from '../../types/index.ts'
 import {TPostResponse} from '../../types/index.ts'
-import {Api} from '../base/Api.ts'
+import {TPostRequest} from '../../types/index.ts'
+import {IApi} from '../../types/index.ts'
 
-export class ClientApi {
-    private _api: Api;
+export class ClientApi{
+    private _api: IApi;
 
-    constructor(api: Api)  {
+    constructor(api: IApi)  {
         this._api = api;
     }
 
-    async getData(): Promise<IProduct[]>{
-        const response: TGetResponse = await this._api.get<TGetResponse>('product');
-        return response.items
+    async getData(): Promise<TGetResponse>{
+        return await this._api.get<TGetResponse>('product');
     }
 
-    async setData(data: object): Promise<TPostResponse> {
+    async setData(data: TPostRequest): Promise<TPostResponse> {
         const response: TPostResponse = 
             await this._api.post<TPostResponse>('order', data);
         return response;
