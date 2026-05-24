@@ -201,5 +201,25 @@ Presenter - презентер содержит основную логику п
 
 `async set(data: object): Promise<TPostResponse>` - асинхронный метод  передаёт в хранилище данные, полученные в параметре data, а возвращает объект, подтверждающий покупку на определенную сумму.
 
+### Представление (View)
+
+#### Класс ProductCatalog
+Хранит массив всех товаров и содержит сущность карточки, выбранной для подробного отображения.
+
+Конструктор:  
+`constructor(productsList: IProduct[], focusCard: IProduct = null)` - В конструктор передается массив доступных товаров и опциональный объект с выбранным товаром.
+
+Поля класса:  
+`private productsList: IProduct[]` - массив товаров.  
+`private focusCard: IProduct | null` - объект с выбранным товаром.
+
+Методы:  
+`get productsList(): IProduct[]` - метод возвращает хранимый массив товаров.  
+`set productsList(productsList: IProduct[])` - метод сохраняет измененный массив товаров.  
+`getProductByID(id: string):IProduct | null` - получение одного товара по его id.  
+`get focusCard(): IProduct | null` - получение товара для подробного отображения из переменной focusCard.  
+`set focusCard(product: IProduct)` - сохранение товара для подробного отображения в переменную focusCard.   
+
+### События
 
 
