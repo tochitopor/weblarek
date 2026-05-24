@@ -217,22 +217,19 @@ Presenter - презентер содержит основную логику п
 
 ### Представление (View)
 
-#### Класс ProductCatalog
-Хранит массив всех товаров и содержит сущность карточки, выбранной для подробного отображения.
+#### Класс Header
+Определяет работу с компонентом интерфейса Header. Наследует от `Component<T>`.
 
 Конструктор:  
-`constructor(productsList: IProduct[], focusCard: IProduct = null)` - В конструктор передается массив доступных товаров и опциональный объект с выбранным товаром.
+`constructor(events: IEvents, container: HTMLElement)` - принимает Брокер событий и ссылку на DOM элемент за отображение, которого он отвечает. Заполняет поля класса.
 
 Поля класса:  
-`private productsList: IProduct[]` - массив товаров.  
-`private focusCard: IProduct | null` - объект с выбранным товаром.
+`protected counterElement: HTMLElement` - поле для хранения элемента отображающего количество товаров в корзине  
+`protected cartButton: HTMLButtonElement` - поле для хранения элемента кнопки открывающей модальной окно с корзиной товаров.
+`protected events: IEvents` - событие для клика по копке каризны.  
 
-Методы:  
-`get productsList(): IProduct[]` - метод возвращает хранимый массив товаров.  
-`set productsList(productsList: IProduct[])` - метод сохраняет измененный массив товаров.  
-`getProductByID(id: string):IProduct | null` - получение одного товара по его id.  
-`get focusCard(): IProduct | null` - получение товара для подробного отображения из переменной focusCard.  
-`set focusCard(product: IProduct)` - сохранение товара для подробного отображения в переменную focusCard.   
+Методы класса:  
+`set counter(val: number)` - устанавливае наколечество товара в корзине   
 
 #### Класс ProductCatalog
 #### Класс ProductCatalog
