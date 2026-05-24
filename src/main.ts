@@ -13,10 +13,18 @@ import {IProduct} from './types/index.ts'
 import {TGetResponse} from './types/index.ts'
 import {TPostResponse} from './types/index.ts'
 import {TPostRequest} from './types/index.ts'
+import { Header } from './components/views/Header.ts';
+import { EventEmitter } from './components/base/Events.ts';
+import { ensureElement } from './utils/utils.ts';
 
 
 const BASE_URL = import.meta.env.VITE_API_ORIGIN;
+const broker = new EventEmitter();
+const headerContainer = ensureElement<HTMLElement>('header', document.body);
+const header = new Header(broker, headerContainer);
 
+const test = {counter: 31};
+header.render(test);
 //----------ProductCatalog----------
 console.log('//----------ProductCatalog----------');
 
