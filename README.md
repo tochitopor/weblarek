@@ -98,6 +98,20 @@ Presenter - презентер содержит основную логику п
 `emit<T extends object>(event: string, data?: T): void` - инициализация события. При вызове события в метод передается название события и объект с данными, который будет использован как аргумент для вызова обработчика.  
 `trigger<T extends object>(event: string, context?: Partial<T>): (data: T) => void` - возвращает функцию, при вызове которой инициализируется требуемое в параметрах событие с передачей в него данных из второго параметра.
 
+#### Класс BaseCard
+Является базовым классом для всех карточек товара. Наследует от `Component<T>`. Содержит основные поля для всех краточек товаров.
+
+Конструктор:  
+`constructor(container: HTMLElement)` - принимает ссылку на DOM элемент за отображение, которого он отвечает.
+
+Поля класса:  
+`protected priceElement: HTMLElement` - поле для хранения элемента отображающего цену товара  
+`protected titleElement: HTMLElement` - поле для хранения элемента отображающего название товара  
+
+Методы класса:  
+`set title(val: string)` - устанавливае название товара в карточке  
+`set price(val: number)` - устанавливает цену товара в карточке    
+
 ### Данные
 
 #### Интерфейс IProduct
@@ -219,6 +233,17 @@ Presenter - презентер содержит основную логику п
 `getProductByID(id: string):IProduct | null` - получение одного товара по его id.  
 `get focusCard(): IProduct | null` - получение товара для подробного отображения из переменной focusCard.  
 `set focusCard(product: IProduct)` - сохранение товара для подробного отображения в переменную focusCard.   
+
+#### Класс ProductCatalog
+#### Класс ProductCatalog
+#### Класс ProductCatalog
+#### Класс ProductCatalog
+#### Класс ProductCatalog
+#### Класс ProductCatalog
+#### Класс ProductCatalog
+#### Класс ProductCatalog
+#### Класс ProductCatalog
+#### Класс ProductCatalog
 
 ### События
 
