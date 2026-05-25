@@ -3,18 +3,18 @@ import { Component } from "../base/Component";
 import { IEvents } from "../base/Events";
 
 interface IHeader {
-    counter: number
+    counterElement: number
 }
 
 export class Header extends Component<IHeader> {
-    protected counterElement: HTMLElement;
+    protected _counterElement: HTMLElement;
     protected cartButton: HTMLButtonElement;
     protected events: IEvents;
 
     constructor(events: IEvents, container: HTMLElement) {
         super(container);
 
-        this.counterElement = ensureElement<HTMLElement>('.header__basket-counter', this.container);
+        this._counterElement = ensureElement<HTMLElement>('.header__basket-counter', this.container);
         this.cartButton = ensureElement<HTMLButtonElement>('.header__basket', this.container);
         this.events = events;
 
@@ -23,7 +23,7 @@ export class Header extends Component<IHeader> {
         });
     }
 
-    set counter(val: number) {
-        this.counterElement.textContent = String(val);
+    set counterElement(val: number) {
+        this._counterElement.textContent = String(val);
     }
 }
