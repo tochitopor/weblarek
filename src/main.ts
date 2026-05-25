@@ -37,7 +37,7 @@ const catalogCardContainer = cloneTemplate<HTMLElement>(catalogCardTemplate as H
 const catalogCardContainer2 = cloneTemplate<HTMLElement>(catalogCardTemplate as HTMLTemplateElement);
 const catalogCard = new CatalogCard(catalogCardContainer);
 const test2 = {image: CDN_URL+'/5_Dots.svg'};
-const catalogCard2 = new CatalogCard(catalogCardContainer2);
+const catalogCard2 = new CatalogCard(catalogCardContainer2); 
 gallery.setCards([catalogCard.render(test2), catalogCard2.render(test2),]);
 //----------ProductCatalog----------
 console.log('//----------ProductCatalog----------');
