@@ -9,8 +9,8 @@ export class BaseCard extends Component<IProduct> {
     constructor(container: HTMLElement) {
         super(container);
 
-        this.priceElement = ensureElement<HTMLElement>('card__price', this.container);
-        this.titleElement = ensureElement<HTMLElement>('card__title', this.container);
+        this.priceElement = ensureElement<HTMLElement>('.card__price', this.container);
+        this.titleElement = ensureElement<HTMLElement>('.card__title', this.container);
     }
 
     set title(val: string) {

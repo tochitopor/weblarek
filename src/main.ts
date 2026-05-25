@@ -15,16 +15,30 @@ import {TPostResponse} from './types/index.ts'
 import {TPostRequest} from './types/index.ts'
 import { Header } from './components/views/Header.ts';
 import { EventEmitter } from './components/base/Events.ts';
-import { ensureElement } from './utils/utils.ts';
+import { cloneTemplate, ensureElement } from './utils/utils.ts';
+import { Gallery } from './components/views/Gallery.ts';
+import { CatalogCard } from './components/views/CatalogCard.ts';
+import { CDN_URL } from './utils/constants.ts';
 
 
 const BASE_URL = import.meta.env.VITE_API_ORIGIN;
 const broker = new EventEmitter();
-const headerContainer = ensureElement<HTMLElement>('header', document.body);
-const header = new Header(broker, headerContainer);
 
-const test = {counter: 31};
+//--Header-- 
+const headerContainer = ensureElement<HTMLElement>('.header', document.body);
+const header = new Header(broker, headerContainer);
+const test = {counterElement: 3};
 header.render(test);
+
+//--Gallery + CatalogCard--
+const gallery = new Gallery(document.body);
+const catalogCardTemplate  = document.getElementById('card-catalog');
+const catalogCardContainer = cloneTemplate<HTMLElement>(catalogCardTemplate as HTMLTemplateElement);
+const catalogCardContainer2 = cloneTemplate<HTMLElement>(catalogCardTemplate as HTMLTemplateElement);
+const catalogCard = new CatalogCard(catalogCardContainer);
+const test2 = {image: CDN_URL+'/5_Dots.svg'};
+const catalogCard2 = new CatalogCard(catalogCardContainer2);
+gallery.setCards([catalogCard.render(test2), catalogCard2.render(test2),]);
 //----------ProductCatalog----------
 console.log('//----------ProductCatalog----------');
 
