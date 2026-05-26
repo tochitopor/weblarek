@@ -244,8 +244,19 @@ Presenter - презентер содержит основную логику п
     Методы класса:  
     `setCards(elements: HTMLElement[]): void` - добавляет в список товары.
 
-#### Класс CardCatalog
-    Определяет работу с компонентом интерфейса CardCatalog. Наследует от `Component<T>`.
+#### Класс CatalogCard
+    Определяет работу с компонентом интерфейса CardCatalog. Наследует от BaseCard.
+
+    Конструктор:  
+    `constructor(container: HTMLElement, handle: (event: MouseEvent) => void)` - принимает ссылку на DOM элемент, за отображение которого он отвечает и колбек. Заполняет поля класса. Веашет на событие 'click' кнопки переданный колбек.
+
+    Поля класса: 
+    `protected _image: HTMLImageElement` - поле для хранения картинки карточки.   
+    `protected _category: HTMLElement` - поле для хранения элемента отображающего категорию карточки. 
+
+    Методы класса: 
+    `set image(val: string)` - устанавливае картинку товара в карточке  
+    `set category(val: string)` - устанавливае категорию товара и соответствующий ей цвет в карточке  
 
 #### Класс ProductCatalog
 #### Класс ProductCatalog
