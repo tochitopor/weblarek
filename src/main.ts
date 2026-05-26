@@ -40,7 +40,7 @@ const gallery = new Gallery(document.body);
 console.log('Проверка создания объекта ProductCatalog: ', JSON.stringify(productCatalog.productsList, null, 2));
 const CatalogCartArray = productCatalog.productsList.map(item => {
     const catalogCardContainer = cloneTemplate<HTMLElement>(catalogCardTemplate as HTMLTemplateElement);
-    const catalogCard = new CatalogCard(catalogCardContainer);
+    const catalogCard = new CatalogCard(catalogCardContainer,() => broker.emit("card:select", { id: item.id }));
     
     return catalogCard.render(item);catalogCard;
 });
