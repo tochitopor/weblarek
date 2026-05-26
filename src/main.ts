@@ -24,6 +24,10 @@ import { CDN_URL } from './utils/constants.ts';
 const BASE_URL = import.meta.env.VITE_API_ORIGIN;
 const broker = new EventEmitter();
 
+const clientApi: ClientApi = new ClientApi(new Api(BASE_URL));
+const data: TGetResponse = await clientApi.getData();
+const productCatalog = new ProductCatalog(data.items, null);
+
 //--Header-- 
 const headerContainer = ensureElement<HTMLElement>('.header', document.body);
 const header = new Header(broker, headerContainer);
@@ -31,32 +35,36 @@ const test = {counterElement: 3};
 header.render(test);
 
 //--Gallery + CatalogCard--
-const gallery = new Gallery(document.body);
 const catalogCardTemplate  = document.getElementById('card-catalog');
-const catalogCardContainer = cloneTemplate<HTMLElement>(catalogCardTemplate as HTMLTemplateElement);
-const catalogCardContainer2 = cloneTemplate<HTMLElement>(catalogCardTemplate as HTMLTemplateElement);
-const catalogCard = new CatalogCard(catalogCardContainer);
-const test2 = {image: CDN_URL+'/5_Dots.svg'};
-const catalogCard2 = new CatalogCard(catalogCardContainer2); 
-gallery.setCards([catalogCard.render(test2), catalogCard2.render(test2),]);
+const gallery = new Gallery(document.body);
+console.log('Проверка создания объекта ProductCatalog: ', JSON.stringify(productCatalog.productsList, null, 2));
+const CatalogCartArray = productCatalog.productsList.map(item => {
+    const catalogCardContainer = cloneTemplate<HTMLElement>(catalogCardTemplate as HTMLTemplateElement);
+    const catalogCard = new CatalogCard(catalogCardContainer);
+    
+    return catalogCard.render(item);catalogCard;
+});
+console.log(CatalogCartArray);
+gallery.setCards(CatalogCartArray);
+
 //----------ProductCatalog----------
-console.log('//----------ProductCatalog----------');
+// console.log('//----------ProductCatalog----------');
 
-const productCatalog = new ProductCatalog(initProducts, null);
-console.log('Проверка создания объекта ProductCatalog: ', JSON.stringify(productCatalog, null, 2));
+// const productCatalog = new ProductCatalog(initProducts, null);
+// console.log('Проверка создания объекта ProductCatalog: ', JSON.stringify(productCatalog, null, 2));
 
-console.log('Проверка получения списка товаров: ', JSON.stringify(productCatalog.productsList, null, 2));
+// console.log('Проверка получения списка товаров: ', JSON.stringify(productCatalog.productsList, null, 2));
 
-productCatalog.productsList = apiProducts.items;
-console.log('Проверка изменения списка товаров: ', JSON.stringify(productCatalog.productsList, null, 2));
+// productCatalog.productsList = apiProducts.items;
+// console.log('Проверка изменения списка товаров: ', JSON.stringify(productCatalog.productsList, null, 2));
 
-console.log('Успешный поиск товара по id: ', productCatalog.getProductByID('c101ab44-ed99-4a54-990d-47aa2bb4e7d9'));
-console.log('Не успешный поиск товара по id: ', productCatalog.getProductByID('124'));
+// console.log('Успешный поиск товара по id: ', productCatalog.getProductByID('c101ab44-ed99-4a54-990d-47aa2bb4e7d9'));
+// console.log('Не успешный поиск товара по id: ', productCatalog.getProductByID('124'));
 
-console.log('Проверки получения NULL фокус карточки: ', productCatalog.focusCard);
+// console.log('Проверки получения NULL фокус карточки: ', productCatalog.focusCard);
 
-productCatalog.focusCard = initProducts[0];
-console.log('Проверки установки фокус карточки: ', productCatalog.focusCard);
+// productCatalog.focusCard = initProducts[0];
+// console.log('Проверки установки фокус карточки: ', productCatalog.focusCard);
 
 //----------Buyer----------
 console.log('//----------Buyer----------');
@@ -121,53 +129,53 @@ console.log('Не успешный поиск товара по id: ', cart.isPr
 cart.cleanCart()
 console.log('Проверка очистка корзины: ', JSON.stringify(cart.productsList, null, 2));
 
-//----------тест get метода объекта ClientApi ----------
-const clientApi: ClientApi = new ClientApi(new Api(BASE_URL));
+// //----------тест get метода объекта ClientApi ----------
+// const clientApi: ClientApi = new ClientApi(new Api(BASE_URL));
 
-async function getRemoteCatalog() {
-    try {
-        const data: TGetResponse = await clientApi.getData();
-        const productList: IProduct[] = data.items;
-        console.log('каталог с сервера: ', JSON.stringify(productList, null, 2));
-    }
-    catch(error){
-        console.log('неудалось получить каталог с сервера', error);
-    }
-}
+// async function getRemoteCatalog() {
+//     try {
+//         const data: TGetResponse = await clientApi.getData();
+//         const productList: IProduct[] = data.items;
+//         console.log('каталог с сервера: ', JSON.stringify(productList, null, 2));
+//     }
+//     catch(error){
+//         console.log('неудалось получить каталог с сервера', error);
+//     }
+// }
 
-getRemoteCatalog();
+// getRemoteCatalog();
 
-//----------тест set метода объекта ClientApi ----------
-const buyer2 = new Buyer();
-buyer2.payment = 'cash';
-buyer2.address = 'Земля';
-buyer2.phone = '555 55 55';
-buyer2.email = 'ganja@mail.ru';
+// //----------тест set метода объекта ClientApi ----------
+// const buyer2 = new Buyer();
+// buyer2.payment = 'cash';
+// buyer2.address = 'Земля';
+// buyer2.phone = '555 55 55';
+// buyer2.email = 'ganja@mail.ru';
 
-const cart2 = new Cart();
-cart2.addProduct(apiProducts.items[0]);
-cart2.addProduct(apiProducts.items[1]);
+// const cart2 = new Cart();
+// cart2.addProduct(apiProducts.items[0]);
+// cart2.addProduct(apiProducts.items[1]);
 
-const request: TPostRequest = ({
-    payment: buyer2.payment,
-    email: buyer2.email,
-    phone: buyer2.phone,
-    address: buyer2.address,
-    total: cart2.getTotalCartPrice(),
-    items: [
-        apiProducts.items[0].id,
-        apiProducts.items[1].id
-    ]
-})
+// const request: TPostRequest = ({
+//     payment: buyer2.payment,
+//     email: buyer2.email,
+//     phone: buyer2.phone,
+//     address: buyer2.address,
+//     total: cart2.getTotalCartPrice(),
+//     items: [
+//         apiProducts.items[0].id,
+//         apiProducts.items[1].id
+//     ]
+// })
 
-async function setDataToServer() {
-    try {
-        const postResponse: TPostResponse = await clientApi.setData(request);
-        console.log('ответ сервера на POST запрос: ', JSON.stringify(postResponse, null, 2));
-    }
-    catch(error){
-        console.log('неудалось отправить данные на сервер', error);
-    }
-}
+// async function setDataToServer() {
+//     try {
+//         const postResponse: TPostResponse = await clientApi.setData(request);
+//         console.log('ответ сервера на POST запрос: ', JSON.stringify(postResponse, null, 2));
+//     }
+//     catch(error){
+//         console.log('неудалось отправить данные на сервер', error);
+//     }
+// }
 
-setDataToServer();
+// setDataToServer();
